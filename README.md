@@ -1,11 +1,11 @@
-# Practico N1 (Clustering)
+# Práctico N1 (Clustering)
 
 ## 1) Introducción y Motivación
-En el siguiente trabajo, se explorarán diferentes técnicas de clusterzación con el objetivo de encontrar relaciones entre palábras provenientes de preguntas conversacionales del dataset [VizWiz-VQA](https://vizwiz.org/tasks-and-datasets/vqa/).
+En el siguiente trabajo, se explorarán diferentes técnicas de clusterzación con el objetivo de encontrar relaciones entre palabras provenientes de preguntas conversacionales del dataset [VizWiz-VQA](https://vizwiz.org/tasks-and-datasets/vqa/).
 
 [VizWiz](https://vizwiz.org/), es el proyecto responsable de introducir los primeros datasets y retos, los cuales mediante Workshop y llamados a competencias anuales, se mantienen en continuo crecimiento y desarrollo. Los mismos están destinados a motivar la creación de nuevas/mejores tecnología y/o algoritmos de inteligencia artificial asistenciales, para ayudar a personas con impedimentos visuales en las diferentes tareas diarias.
 
-En particular, el dataset VizWiz-VQA, es un conjunto de ternas (pregunta, 10 respuestas, fotografía), construido en base a audios realizados en base a una fotografía que los mismos usuarios no videntes tomaron.
+En particular, el dataset VizWiz-VQA, es un conjunto de ternas (pregunta, 10 respuestas, fotografía), construido en base a audios procedentes de consultas que usuarios no videntes realizaban sobre las imagenes que ellos mismos tomaban.
 
 ![vizwiz example](/clustering/images/vizwizex.png)
 
@@ -24,7 +24,7 @@ En este trabajo se evaluaron tres diferentes caminos para lograr la clusterizaci
 ## 2) Procesamiento del corpus
 El corpus a trabajar estuvo definido por un total de aprox 32000 preguntas con una longitud media de palabras de 6.66; resultado de concatenar los conjuntos Test, Val, y Train, correspondientes a las muestras de entrenamiento, testeo y validación de VizWiz-VQA. 
 
-Previo a la creación de cada una de las matrices de co-ocurrencia, lo primero que se realizó, utilizando la librería **spacy**, fue dividir cada pregunta en oraciones (muchas de ellas formadas por mas de hasta 5 oraciones, dado a que son preguntas conversacionales) y de allí su respectiva lista de tokens. De esta manera, a cada pregunta fue asociada una lista de lista de tokens, manteniendo el contexto y facilitando la creación de tales matrices, sin tener que procesar todo nuevamente.
+Previo a la creación de cada una de las matrices de co-ocurrencia, lo primero que se realizó, utilizando la librería **spacy**, fue dividir cada pregunta en oraciones (muchas de ellas formadas por mas de hasta 5 oraciones, dado a que son preguntas conversacionales) y de allí su respectiva lista de tokens. De esta manera, a cada pregunta fue asociada una lista de lista de tokens, manteniendo el contexto y facilitando la creación de tales matrices, sin tener que procesar luego todo nuevamente.
 
 En el proceso, se descartaron token no alfabéticos, se convirtieron a minúsculas y lematizaron. Además, se decidieron agregar los tokens especiales 'INIT' y 'END' al inicio y final de cada pregunta, con la potencial finalidad de poder estudiar que palabras están mas relacionadas a los comienzos y finales de cada una. Ej:
 
@@ -34,7 +34,7 @@ En el proceso, se descartaron token no alfabéticos, se convirtieron a minúscul
 	['thank', 'you', 'END'] 
 
 Este último procedimiento fue aplicado para poder alcanzar los objetivos 1 y 3 nombrados en la sección anterior. 
-Para lograr el objetivo 2 (clusterización mediante triplas de dependencia), el proceso fue similar al anteriór, con la diferencia de que no se utilizaron los token especiales 'INIT' y 'END', y en lugar de generar listas de token simples, se generaron lista de triplas de dependencia por cada oración de la pregunta de la forma *lemma0-dep-lemma1*, donde **lemma1** es el padre directo de **lemmao** y tiene una dependencia del tipo **dep**. Ej:
+Para lograr el objetivo 2 (clusterización mediante triplas de dependencia), el proceso fue similar al anterior, con la diferencia de que no se utilizaron los token especiales 'INIT' y 'END', y en lugar de generar listas de token simples, se generaron lista de triplas de dependencia por cada oración de la pregunta de la forma *lemma0-dep-lemma1*, donde **lemma1** es el padre directo de **lemmao** y tiene una dependencia del tipo **dep**. Ej:
 
 * **Q**: Is this enchilada sauce or is this tomatoes?  Thank you.
 * **Result**: 
@@ -44,7 +44,7 @@ Para lograr el objetivo 2 (clusterización mediante triplas de dependencia), el 
 
 ## 3) Análisis de vocabulario
 Como resultado de analizar los diferentes tokens obtenidos, se encontraron:
-*  Un total de 289946 palabras (lemmas)!.
+*  Un total de 289946 palabras (lemmas).
 *  Exactamente 3888 palabras únicas (lemmas), contando los tokens INIT y END agregados,
 
 ### <u>Nube de palabras</u>
@@ -56,32 +56,32 @@ Como resultado de analizar los diferentes tokens obtenidos, se encontraron:
 ### <u>Primeras 100 palabras mas frecuentes</u>
 ![top100_words](/clustering/images/top100_word.png)
 
-Como se puede observar, la distribución de de las palabras posee una distribución exponencial, siendo las palabras *'what'*, *'this'* y *'is' (be)* las más frecuentes, lo que a priori nos estaría, indirectamente, sugiriendo que la pregunta **"What this is?"** podría ser una de las más utilizadas en el dataset.
+Como se puede observar, las palabras posee una distribución exponencial, siendo *'what'*, *'this'* y *'is' (be)* las más frecuentes, lo que a priori nos estaría indirectamente sugiriendo, que la pregunta **"What this is?"** sería una de las más utilizadas en el dataset.
 
 
-## 4) Creación de marices de Co-Ocurrencia (Vectorización)
-Partiendo de los pre-procesamientos guardados anteriores, se crearon las respectivas matrices de co-ocurrencia. Cada matriz fue normalizada (por fila, dada a la distribución exponencial que se observó en las frecuencias de cada palabra en el vocabulario) y luego se redujo su dimensionalidad, utilizando filtrado por umbral de varianza. Es decir, se descartaron todas las características (columnas) que entregaran poca variación. Para esto último se usaron umbrales de varianza de entre **.001** y **.0015**.
+## 4) Creación de matrices de Co-Ocurrencia (Vectorización)
+Partiendo de los pre-procesamientos anteriormente guardados, se crearon las respectivas matrices de co-ocurrencia. Cada matriz fue normalizada (por fila, dada a la distribución exponencial que se observó en las frecuencias de cada palabra en el vocabulario) y luego se redujo su dimensionalidad, utilizando filtrado por umbral de varianza. Es decir, se descartaron todas las características (columnas) que entregaran poca variación. Para esto último se usaron umbrales de varianza de entre **.001** y **.0015**.
 
 En esta etapa se utilizaron las librerías **normalize**, **VarianceThreshold** y **DictVectorizer** de *sklearn*, para normalizar y reducir la dimensionalidad respectivamente.
 
 
 ## 5) Clusterización
-Para realizar esta técnica se emplearon la **Kmeans** de *sklearn* y las librerias **TSNE** y  **SilhouetteVisualizer** de *yellowbrick*, para visualizar y evaluar los resultados; la primera (t-distributed stochastic neighbor embedding) para reducir la dimensionalidad de la matriz de características y representar en un gráfico 2D las palabras, y la segunda para generar el diagráma de *Silhouette* para ver la consistencia de cada grupo y tener una guía aproximada enel proceso de selección del valor **K** más óptimo.
+Para realizar esta técnica se emplearon la librería  **Kmeans** de *sklearn* y **TSNE** y  **SilhouetteVisualizer** de *yellowbrick*, para visualizar y evaluar los resultados; la primera (t-distributed stochastic neighbor embedding) para reducir la dimensionalidad de la matriz de características y representar en un gráfico 2D las palabras, y la segunda para generar el diagrama de *Silhouette* para ver la consistencia de cada grupo y tener una guía aproximada en el proceso de selección del valor **K** más óptimo.
 
 <u>Nota:</u> Para poder encontrar los centroides de cada conjunto, se configuró la librería para que realice **5** corridas de **600** iteraciónes cada una, y las coordenadas de cada centro sea la media de esas 5 ejecuciones.
 
 ## 6) Pruebas y Resultados
 
-En términos generales, se observo que al realizar la clusterización partiendo de la matriz de co-ocurrencias basada en cercanía de palabras (objetivo 1), a medida que se ampliaba el contexto (ie. aumentaba el valor de **WINDOW_SIZE**), los clusteres entregados se solapaban cada vez más.  Esta tendencia también se observó al utilizar WordEmbedding Neuronales (objetivo 3). Con respecto a la clusterización partiendo de la matriz generada con las tríplas de dependencia, no se pudo obtener clusteres definidos, sino que en su lugar se originaba un gran clúster con casi el 90% de las palabras en el vocabulario. Una de las hipótesis es que dado a que las peguntas del dataset analizado tienen origen conversacional, puede que el uso de dependencias sintácticas no sea el más adecuado para lograr el objetivo.
+En términos generales, se observó que al realizar la clusterización partiendo de la matriz de co-ocurrencias basada en cercanía de palabras (objetivo 1), a medida que se ampliaba el contexto (ie. aumentaba el valor de **WINDOW_SIZE**), los clusteres entregados se solapaban cada vez más.  Esta tendencia también se observó al utilizar Word Embedding Neuronales (objetivo 3). Con respecto a la clusterización partiendo de la matriz generada con las tríplas de dependencia, no se pudo obtener clusteres definidos, sino que en su lugar se originaba un gran clúster con casi el 90% de las palabras en el vocabulario. Una de las hipótesis es que dado a que las peguntas del dataset analizado tienen origen conversacional, puede que el uso de dependencias sintácticas no sea el más adecuado para lograr el objetivo.
 
 A continuación se muestran los resultados entregados de la mejor combinación de parámetros y metodología probada (todas las demás pruebas están disponibles para ver en el notebook). Las figuras de abajo muestra el resultado obtenido empleando como punto de partida una matriz de co-ocurrencia de *correlaciones entre palabras con ventana unitaria*. Se probaron diferentes parámetros y el mejor resultado se obtuvo utilizando:
 
-1. Un filtrado por varianza de **.001** reduciendo la matriz normalizada de **(3888, 3888)** a **(3888, 73)**.
+1. Un filtrado por varianza de **.001** que redujo la matriz normalizada de **(3888, 3888)** a **(3888, 73)**.
 2.  Clusterización con parámetros: **k=20**, **max_iter=600** y **n_init=5**.
 
 ![top100_words](/clustering/images/cluster_result.png)
 
-Aunque no todos los clústeres pueden identificarse univocamente mediante alguna característica gramatical y/o semántica definida, mayoritariamente se pudieron encontrar buenas relaciones en los clusteres 4,7,12,16 y 19 listados al final. Si bien estos son los que a criterio personal, mejor agrupación presentan, todos poseen palabras que no deberían incluir, lo cual no debería sorprender ya que si miramos el diagrama de Silhouette, salvo excepciones, todos presentan una cola izquierda que indica que hay palabras equivocadas. Esto también se ve evidenciado en el gráfico de la derecha, cuando se ven puntos alejados de los centros sólidos.
+Aunque no todos los clústeres pueden identificarse unívocamente mediante alguna propiedad, característica gramatical y/o semántica definida, mayoritariamente se pudieron encontrar buenas relaciones en los clusteres 4,7,16,17 y 19 listados al final. Si bien estos son los que a criterio personal, mejor agrupación presentan, todos poseen palabras que no deberían incluir, lo cual no es sorprendente ya que si miramos el diagrama de Silhouette, salvo excepciones, todos presentan una cola izquierda que indica que hay palabras equivocadas. Esto también se refleja en el gráfico de la derecha, cuando se ven puntos alejados de los centros sólidos.
 
 
 * Cluster 7 - Top 100 most freq words:
@@ -117,7 +117,7 @@ accept, suspect, cheat, stupid, stare, wearin, recommend, focused, unplug, previ
 awful, refill, accidentally, notification, decide, orient, invention, upon, retook, 
 
 * Cluster 17 - Top 100 most freq words:
-    * (Objetos)
+    * (Objetos/sustantivos)
 ------
 say, box, shirt, bottle, product, item, card, book, package, cd, bag, photo, image, paper, jar, thing, 
 object, expire, again, work, container, milk, laptop, packet, keyboard, tin, cat, lotion, medication, window, device, 
@@ -137,14 +137,3 @@ strawberry, tylenol, turquoise, repair, catalina, instant, horizontal, vertical,
 tan, shell, tapioca, daytime, bedtime, file, advil, strip, selector, lime, mild, nyquil, vanilla, heater, pm, 
 unsalted, mixed, enchilada, lemonade, grapefruit, nighttime, wheat, classic, itself, calm, sweeten, unsweetened, sour, rightside, fertilizer, 
 dehumidifier, chunky, creamy, original, snow, bizwiz, barbecue, blueberry, closed
-
-* Cluster 12 - Top 100 most freq words:
-    * ('Unidades, cantidades')
-------
-expiration, instruction, text, two, oven, model, camera, cooking, direction, back, word, other, sky, three, distance, move, 
-sodium, serial, last, first, order, character, conventional, five, security, same, price, dosage, into, scale, amount, 
-frequency, expiry, progress, heavy, inch, password, almond, hard, mode, manufacturer, percentage, middle, whole, through, ceiling, 
-follow, layout, under, needle, than, wrong, after, wireless, across, six, third, fiber, email, current, weather, 
-login, sun, confirm, scanner, cartoon, input, handle, baking, port, below, stove, actual, verification, pilot, plastic, 
-wattage, driver, most, boy, result, isbn, especially, liquid, hell, claim, near, exact, library, kitty, large, 
-total, flat, upper, contact, main, process, warning, miss, blackberry
