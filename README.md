@@ -7,4 +7,4 @@
 # Contenido:
 * `clustering/` Clusterización de palabras realizadas sobre preguntas de dataset VizWiz-VQA.
 
-* `proy_final/` Tipificación de preguntas de VizWiz-VQA para mejorar un clasificador automático.
+* `proy_final/` Tipificación de preguntas visuales de VizWiz-VQA dataset.
