@@ -1,10 +1,12 @@
-# Curso Text Mining
-> **Instructora:** Dr. Laura Alonso Alemany - **Año**: 2021
+# Text Mining
+> **Profesora:** Dr. Laura Alonso Alemany
 
-> <i>Facultad de Astronomía, Matemática, Física y Computación - Universidad Nacional de Córdoba</i>
+> **Año**: 2021
+
+> <b>Facultad de Astronomía, Matemática, Física y Computación, Universidad Nacional de Córdoba.</b>
 
 
 # Contenido:
-* `clustering/` Clusterización de palabras realizadas sobre preguntas de dataset VizWiz-VQA.
+* `clustering/` **Práctico N1**. Clusterización de palabras contenidas en preguntas visuales de VizWiz-VQA dataset.
 
-* `proy_final/` Tipificación de preguntas de VizWiz-VQA para mejorar un clasificador automático.
+* `final_project/` **Trabajo final**. Tipificación/desagregación de preguntas visuales de VizWiz-VQA dataset; con posterior entrenamiento de clasificador automático, y análisis de ex-clases mayoritarias.

@@ -1,0 +1,23 @@
+\section{Related works}
+% Si bien no hay trabajos que particularmente tengan como objetivo desagregar las categorías predefinidas en el dataset de VizWiz-VQA, muchas aproximaciones y estrategias de clustering han sido utilizadas para agrupar preguntas en otros conjuntos de datos para alguna tarea en particular. 
+
+% Aishwarya Ashok et al. (A Similarity based Clustering Approach to Opinion QuestionAnswering), utilizó clustering 
+% sobre conjuntos de datos OQA (Opinion-based Question Answering), para responder preguntas sobre productos de 
+% tiendas online, basándose en las opiniones dejadas por otros clientes, utilizando puntajes de similitud de coseno 
+% entre vectores de oraciones de revisiones y preguntas. 
+
+% Kento Terao et al. (An Entropy Clustering Approach for AssessingVisual Question Difficulty), propone un enfoque novedoso para identificar el nivel de dificultad en las preguntas visuales de VQA (específicamente sobre VQA 2.0), agrupando los niveles de dificultades en relación a los valores de entropía calculado en la distribución de las respuestas de cada pregunta.
+
+% Por último, Deepak P. (MixKMeans: Clustering Question-Answer Archives)
+% aplica clustering sobre preguntas CQA (Community-based Question Answering), en el cual utiliza una estrategia novedosa para agrupar pares de pregunta-respuesta en conjuntos de datos recolectados de sistemas como Yahoo! Answers, StackOverflow, etc.
+
+In 2013, Brady et al. \cite{vizwiz_taxonomy}, launches VizWiz-Social, an update of the application proposed three years ago by Bigham et al. \cite{vizwiz_phone}, which they use for a long year with the aim of providing a new look at the diversity of questions that blind people want answers about their visual environment .
+This was one of the first works to perform a qualitative analysis to build a taxonomy of the types of questions asked of blind people. Although the classification process was not performed using unsupervised learning algorithms, it laid the groundwork for improving understanding of the problems faced by blind people in their daily lives.
+
+While there are no papers that specifically disaggregate the main categories of the VizWiz-VQA dataset automatically, many clustering approaches and strategies have been used to group questions into other datasets for a particular task.
+
+Aishwarya Ashok et al. \cite{ashok-etal-2020-simsterq}, used clustering on OQA (Opinion-based Question Answering) datasets, to answer questions about online stores, based on the opinions left by other customers, using cosine similarity scores between revision and question sentence vectors.
+
+Kento Terao et al. \cite{entropy-clustering}, proposes a novel approach to identify the level of difficulty in the visual questions of VQA (specifically about VQA 2.0), grouping the levels of difficulties in relation to the entropy values calculated based on the distribution of the responses to each question.
+
+Lastly, Deepak P. \cite{p-2016-mixkmeans}, applies clustering on CQA (Community-based Question Answering) questions, in which it uses a novel strategy to group question-answer pairs in data sets collected from systems such as Yahoo! Answers, Stack Overflow, etc.

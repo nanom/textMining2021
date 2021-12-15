@@ -1,4 +1,4 @@
-# Práctico N1 (Clustering)
+# Clustering
 
 ## 1) Introducción y Motivación
 En el siguiente trabajo, se explorarán diferentes técnicas de clusterzación con el objetivo de encontrar relaciones entre palabras provenientes de preguntas conversacionales del dataset [VizWiz-VQA](https://vizwiz.org/tasks-and-datasets/vqa/).
